@@ -1,0 +1,857 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gửi chị những lời chúc 💗</title>
+
+<style>
+:root {
+    --bg: #fff0f6;
+    --pink: #ff8fbd;
+    --text: #d65b8b;
+    --heart-x: 1;
+    --heart-y: 1;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow: hidden;
+    background-color: var(--bg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    transition: background-color 0.3s;
+}
+
+/* Tiêu đề */
+.header {
+    position: fixed;
+    top: 24px;
+    left: 0;
+    width: 100%;
+    padding: 0 65px;
+    text-align: center;
+    color: var(--text);
+    font-size: clamp(20px, 4vw, 34px);
+    font-weight: bold;
+    text-shadow: 0 2px 10px white;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Khu vực hiệu ứng */
+#scene {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Trái tim */
+.heart-float {
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    animation: heartRise linear forwards;
+    will-change: transform, opacity;
+}
+
+.heart-shape {
+    display: block;
+    color: var(--pink);
+    font-size: 36px;
+    line-height: 1;
+    transform: scale(var(--heart-x), var(--heart-y));
+    filter: drop-shadow(0 3px 5px #d65b8b45);
+    animation: heartBeat 1.3s ease-in-out infinite;
+}
+
+@keyframes heartRise {
+    0% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.95;
+    }
+    50% {
+        transform: translate3d(35px, -55vh, 0) rotate(15deg);
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate3d(-25px, -115vh, 0) rotate(-15deg);
+        opacity: 0;
+    }
+}
+
+@keyframes heartBeat {
+    0%, 100% {
+        filter: drop-shadow(0 2px 4px #d65b8b30);
+    }
+    50% {
+        filter: drop-shadow(0 3px 9px #ff69a480);
+    }
+}
+
+/* Lời chúc bay */
+.wish-float {
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    max-width: 85vw;
+    padding: 9px 15px;
+    border-radius: 25px;
+    background: #ffffffb8;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 3px 15px #d65b8b18;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    overflow-wrap: anywhere;
+    animation: wishRise linear forwards;
+    will-change: transform, opacity;
+}
+
+@keyframes wishRise {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(-55vh) translateX(25px);
+    }
+    90% {
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(-115vh) translateX(-20px);
+        opacity: 0;
+    }
+}
+
+/* Nút mở cài đặt */
+#openSettings {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    background: #ffffffdd;
+    color: #c64c82;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 3px 15px #00000015;
+}
+
+/* Bảng cài đặt */
+#settings {
+    position: fixed;
+    top: 72px;
+    right: 15px;
+    z-index: 10;
+    width: min(340px, calc(100vw - 30px));
+    max-height: calc(100vh - 90px);
+    overflow-y: auto;
+    padding: 20px;
+    border: 1px solid #ffc6dd;
+    border-radius: 20px;
+    background: #fff8fbf5;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 35px #9b426526;
+    color: #8f3d64;
+}
+
+#settings.hidden {
+    display: none;
+}
+
+#settings h2 {
+    margin: 0 0 16px;
+    color: #cf5689;
+    font-size: 22px;
+}
+
+.control {
+    margin-bottom: 15px;
+}
+
+.control label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.control input[type="range"],
+.control input[type="text"],
+.control textarea,
+.control input[type="file"] {
+    width: 100%;
+}
+
+.control input[type="range"] {
+    accent-color: #e779a8;
+}
+
+.control input[type="text"],
+.control textarea {
+    padding: 9px;
+    border: 1px solid #f1b4cd;
+    border-radius: 9px;
+    background: white;
+    color: #73364f;
+    font: inherit;
+}
+
+.control textarea {
+    min-height: 115px;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.control input[type="color"] {
+    width: 100%;
+    height: 38px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.control input[type="file"] {
+    font-size: 13px;
+}
+
+.value {
+    float: right;
+    font-weight: normal;
+    color: #cf5689;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.action {
+    flex: 1;
+    min-width: 100px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #f7a8c8;
+    color: #702c4b;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.action:hover {
+    background: #f18db7;
+}
+
+.action.secondary {
+    background: #f3e1e9;
+}
+
+.note {
+    margin-top: 12px;
+    color: #98677d;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+/* Điện thoại */
+@media (max-width: 480px) {
+    .header {
+        top: 24px;
+        padding: 0 58px 0 12px;
+    }
+
+    #settings {
+        top: 68px;
+        right: 10px;
+        max-height: calc(100vh - 80px);
+        padding: 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .heart-shape {
+        animation: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header" id="pageTitle">Gửi chịi những lời chúc 💗</div>
+
+<button id="openSettings" type="button" title="Tùy chỉnh">⚙️</button>
+
+<div id="scene"></div>
+
+<div id="settings" class="hidden">
+    <h2>💗 Tùy chỉnh</h2>
+
+    <div class="control">
+        <label for="titleInput">Tiêu đề trang</label>
+        <input id="titleInput" type="text"
+               value="Gửi chị những lời chúc 💗"
+               maxlength="100">
+    </div>
+
+    <div class="control">
+        <label for="bg">🎨 Màu nền</label>
+        <input id="bg" type="color" value="#fff0f6">
+    </div>
+
+    <div class="control">
+        <label for="bgImage">🖼️ Chọn ảnh nền từ máy tính</label>
+        <input id="bgImage" type="file" accept="image/*">
+    </div>
+
+    <div class="control">
+        <label for="pink">💗 Màu trái tim</label>
+        <input id="pink" type="color" value="#ff8fbd">
+    </div>
+
+    <div class="control">
+        <label for="textColor">💌 Màu lời chúc</label>
+        <input id="textColor" type="color" value="#d65b8b">
+    </div>
+
+    <div class="control">
+        <label for="heartCount">
+            Số trái tim <span class="value" id="heartCountValue">25</span>
+        </label>
+        <input id="heartCount" type="range"
+               min="5" max="60" value="25">
+    </div>
+
+    <div class="control">
+        <label for="heartWidth">
+            Chiều rộng trái tim
+            <span class="value" id="heartWidthValue">100%</span>
+        </label>
+        <input id="heartWidth" type="range"
+               min="40" max="180" value="100">
+    </div>
+
+    <div class="control">
+        <label for="heartHeight">
+            Chiều cao trái tim
+            <span class="value" id="heartHeightValue">100%</span>
+        </label>
+        <input id="heartHeight" type="range"
+               min="40" max="180" value="100">
+    </div>
+
+    <div class="control">
+        <label for="speed">
+            Tốc độ bay
+            <span class="value" id="speedValue">5</span>
+        </label>
+        <input id="speed" type="range"
+               min="1" max="10" value="5">
+    </div>
+
+    <div class="control">
+        <label for="wishSize">
+            Cỡ chữ lời chúc
+            <span class="value" id="wishSizeValue">16 px</span>
+        </label>
+        <input id="wishSize" type="range"
+               min="10" max="30" value="16">
+    </div>
+
+    <div class="control">
+        <label for="wishCount">
+            Số lời chúc đang bay
+            <span class="value" id="wishCountValue">8</span>
+        </label>
+        <input id="wishCount" type="range"
+               min="1" max="20" value="8">
+    </div>
+
+    <div class="control">
+        <label for="wishes">✍️ Nội dung lời chúc</label>
+        <textarea id="wishes">Chúc bé luôn vui vẻ 💗
+Mong mọi điều tốt đẹp đến với bé 🌷
+Chúc bé mỗi ngày đều hạnh phúc ✨
+bé luôn xứng đáng với những điều tốt đẹp 💕
+Mong nụ cười luôn ở trên môi bé 🌸
+Chúc bé học tập thật tốt 📚
+Hãy luôn tin vào bản thân nhé 💖
+Chúc bé có một ngày thật tuyệt vời 🌈</textarea>
+    </div>
+
+    <div class="buttons">
+        <button class="action" id="apply" type="button">
+            Áp dụng
+        </button>
+        <button class="action secondary" id="pause" type="button">
+            Tạm dừng
+        </button>
+        <button class="action secondary" id="removeBg" type="button">
+            Xóa ảnh nền
+        </button>
+        <button class="action secondary" id="reset" type="button">
+            Đặt lại
+        </button>
+    </div>
+
+    <p class="note">
+        Ảnh nền được dùng trực tiếp trên trình duyệt của bạn.
+        Nếu muốn dùng ảnh khác, hãy chọn lại ảnh từ máy tính.
+    </p>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+
+const scene = $("scene");
+const settings = $("settings");
+
+// KEY dùng để lưu cài đặt vào trình duyệt
+const STORAGE_KEY = "loi_chuc_settings";
+
+let currentBackgroundURL = null;
+let paused = false;
+let heartTimer = null;
+let wishTimer = null;
+
+let config = {
+    heartCount: 25,
+    wishCount: 8,
+    speed: 5,
+    heartWidth: 100,
+    heartHeight: 100,
+    wishSize: 16,
+    wishes: []
+};
+
+const defaults = {
+    title: "Gửi bé những lời chúc 💗",
+    bg: "#fff0f6",
+    pink: "#ff8fbd",
+    textColor: "#d65b8b",
+    heartCount: 25,
+    heartWidth: 100,
+    heartHeight: 100,
+    speed: 5,
+    wishSize: 16,
+    wishCount: 8,
+    wishes: [
+        "Chúc bé luôn vui vẻ 💗",
+        "Mong mọi điều tốt đẹp đến với bé 🌷",
+        "Chúc bé mỗi ngày đều hạnh phúc ✨",
+        "bé luôn xứng đáng với những điều tốt đẹp 💕",
+        "Mong nụ cười luôn ở trên môi emm 🌸",
+        "Chúc chị học tập thật tốt 📚",
+        "Hãy luôn tin vào bản thân nhé 💖",
+        "Chúc chị có một ngày thật tuyệt vời 🌈"
+    ]
+};
+
+function readWishes() {
+    return $("wishes").value
+        .split("\n")
+        .map(text => text.trim())
+        .filter(Boolean);
+}
+// Lưu toàn bộ cài đặt vào trình duyệt
+function saveSettings() {
+    const settings = {
+        title: $("titleInput").value,
+        bg: $("bg").value,
+        pink: $("pink").value,
+        textColor: $("textColor").value,
+
+        heartCount: $("heartCount").value,
+        heartWidth: $("heartWidth").value,
+        heartHeight: $("heartHeight").value,
+
+        speed: $("speed").value,
+        wishSize: $("wishSize").value,
+        wishCount: $("wishCount").value,
+
+        wishes: $("wishes").value
+    };
+    function loadSettings() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+
+    if (!saved) return;
+    // Phím tắt Ctrl + S để lưu cài đặt
+document.addEventListener("keydown", function(event) {
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
+        event.preventDefault();
+
+        saveSettings();
+
+        alert("💗 Đã lưu cài đặt thành công!");
+    }
+});
+
+    try {
+        const data = JSON.parse(saved);
+
+        if (data.title !== undefined) $("titleInput").value = data.title;
+        if (data.bg !== undefined) $("bg").value = data.bg;
+        if (data.pink !== undefined) $("pink").value = data.pink;
+        if (data.textColor !== undefined) $("textColor").value = data.textColor;
+
+        if (data.heartCount !== undefined) $("heartCount").value = data.heartCount;
+        if (data.heartWidth !== undefined) $("heartWidth").value = data.heartWidth;
+        if (data.heartHeight !== undefined) $("heartHeight").value = data.heartHeight;
+
+        if (data.speed !== undefined) $("speed").value = data.speed;
+        if (data.wishSize !== undefined) $("wishSize").value = data.wishSize;
+        if (data.wishCount !== undefined) $("wishCount").value = data.wishCount;
+
+        if (data.wishes !== undefined) $("wishes").value = data.wishes;
+
+    } catch (error) {
+        console.log("Không thể đọc cài đặt:", error);
+    }
+}
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(settings)
+    );
+}
+
+function random(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+function updateValues() {
+    $("heartCountValue").textContent = $("heartCount").value;
+    $("heartWidthValue").textContent = $("heartWidth").value + "%";
+    $("heartHeightValue").textContent = $("heartHeight").value + "%";
+    $("speedValue").textContent = $("speed").value;
+    $("wishSizeValue").textContent = $("wishSize").value + " px";
+    $("wishCountValue").textContent = $("wishCount").value;
+}
+
+function updateConfig(save = true) {
+    config.heartCount = Number($("heartCount").value);
+    config.heartWidth = Number($("heartWidth").value);
+    config.heartHeight = Number($("heartHeight").value);
+    config.speed = Number($("speed").value);
+    config.wishSize = Number($("wishSize").value);
+    config.wishCount = Number($("wishCount").value);
+    config.wishes = readWishes();
+
+    document.documentElement.style.setProperty(
+        "--heart-x", config.heartWidth / 100
+    );
+    document.documentElement.style.setProperty(
+        "--heart-y", config.heartHeight / 100
+    );
+
+    document.documentElement.style.setProperty("--bg", $("bg").value);
+    document.documentElement.style.setProperty("--pink", $("pink").value);
+    document.documentElement.style.setProperty("--text", $("textColor").value);
+
+    $("pageTitle").textContent = $("titleInput").value.trim()
+        || defaults.title;
+
+    document.body.style.backgroundColor = $("bg").value;
+
+    document.querySelectorAll(".wish-float").forEach(el => {
+        el.style.fontSize = config.wishSize + "px";
+    });
+
+    updateValues();
+    refreshEffects();
+}
+
+function clearTimers() {
+    if (heartTimer) clearInterval(heartTimer);
+    if (wishTimer) clearInterval(wishTimer);
+    heartTimer = null;
+    wishTimer = null;
+}
+
+function removeOldest(className) {
+    const items = scene.querySelectorAll("." + className);
+    if (items.length) items[0].remove();
+}
+
+function createHeart() {
+    if (paused) return;
+
+    const hearts = scene.querySelectorAll(".heart-float");
+    if (hearts.length >= config.heartCount) {
+        removeOldest("heart-float");
+    }
+
+    const item = document.createElement("div");
+    item.className = "heart-float";
+
+    const shape = document.createElement("span");
+    shape.className = "heart-shape";
+    shape.textContent = "♥";
+
+    item.appendChild(shape);
+    item.style.left = random(2, 96) + "vw";
+    item.style.animationDuration =
+        random(7, 13) / (config.speed / 5) + "s";
+    shape.style.color = $("pink").value;
+    shape.style.fontSize = random(22, 42) + "px";
+
+    scene.appendChild(item);
+
+    item.addEventListener("animationend", () => item.remove());
+}
+
+function createWish() {
+    if (paused || config.wishes.length === 0) return;
+
+    const wishes = scene.querySelectorAll(".wish-float");
+    if (wishes.length >= config.wishCount) {
+        removeOldest("wish-float");
+    }
+
+    const item = document.createElement("div");
+    item.className = "wish-float";
+
+    item.textContent =
+        config.wishes[Math.floor(Math.random() * config.wishes.length)];
+
+    item.style.left = random(3, 70) + "vw";
+    item.style.fontSize = config.wishSize + "px";
+    item.style.color = $("textColor").value;
+    item.style.animationDuration =
+        random(8, 14) / (config.speed / 5) + "s";
+
+    scene.appendChild(item);
+
+    item.addEventListener("animationend", () => item.remove());
+}
+
+function refreshEffects() {
+    clearTimers();
+
+    if (paused) return;
+
+    // Khởi tạo hiệu ứng ngay lập tức
+    for (let i = 0; i < Math.min(config.heartCount, 12); i++) {
+        setTimeout(createHeart, i * 180);
+    }
+
+    for (let i = 0; i < Math.min(config.wishCount, 5); i++) {
+        setTimeout(createWish, i * 350);
+    }
+
+    const interval = Math.max(250, 1100 - config.speed * 75);
+    heartTimer = setInterval(createHeart, interval);
+    wishTimer = setInterval(createWish, interval * 1.7);
+}
+
+function applySettings() {
+    updateConfig();
+}
+
+$("openSettings").addEventListener("click", () => {
+    settings.classList.toggle("hidden");
+});
+
+$("apply").addEventListener("click", () => {
+    applySettings();
+});
+
+["heartCount", "heartWidth", "heartHeight",
+ "speed", "wishSize", "wishCount"].forEach(id => {
+   ["heartCount", "heartWidth", "heartHeight",
+ "speed", "wishSize", "wishCount"].forEach(id => {
+    $(id).addEventListener("input", () => {
+        updateValues();
+        updateConfig();
+    });
+});
+});
+
+["bg", "pink", "textColor", "titleInput", "wishes"].forEach(id => {
+    $(id).addEventListener("input", updateConfig);
+});
+
+// Chọn ảnh nền từ máy tính
+$("bgImage").addEventListener("change", function () {
+    const file = this.files && this.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+        alert("Vui lòng chọn một file ảnh hợp lệ!");
+        this.value = "";
+        return;
+    }
+
+    if (currentBackgroundURL) {
+        URL.revokeObjectURL(currentBackgroundURL);
+    }
+
+    currentBackgroundURL = URL.createObjectURL(file);
+    document.body.style.backgroundImage =
+        `url("${currentBackgroundURL}")`;
+});
+
+// Xóa ảnh nền, quay lại màu nền đã chọn
+$("removeBg").addEventListener("click", () => {
+    document.body.style.backgroundImage = "none";
+    document.body.style.backgroundColor = $("bg").value;
+
+    if (currentBackgroundURL) {
+        URL.revokeObjectURL(currentBackgroundURL);
+        currentBackgroundURL = null;
+    }
+
+    $("bgImage").value = "";
+});
+
+// Tạm dừng hoặc tiếp tục
+$("pause").addEventListener("click", () => {
+    paused = !paused;
+
+    $("pause").textContent = paused
+        ? "Tiếp tục"
+        : "Tạm dừng";
+
+    if (paused) {
+        clearTimers();
+        scene.querySelectorAll("*").forEach(el => {
+            el.style.animationPlayState = "paused";
+        });
+    } else {
+        scene.querySelectorAll("*").forEach(el => {
+            el.style.animationPlayState = "running";
+        });
+        refreshEffects();
+    }
+});
+
+// Khôi phục cài đặt ban đầu
+$("reset").addEventListener("click", () => {
+    $("titleInput").value = defaults.title;
+    $("bg").value = defaults.bg;
+    $("pink").value = defaults.pink;
+    $("textColor").value = defaults.textColor;
+    $("heartCount").value = defaults.heartCount;
+    $("heartWidth").value = defaults.heartWidth;
+    $("heartHeight").value = defaults.heartHeight;
+    $("speed").value = defaults.speed;
+    $("wishSize").value = defaults.wishSize;
+    $("wishCount").value = defaults.wishCount;
+    $("wishes").value = defaults.wishes.join("\n");
+
+    if (currentBackgroundURL) {
+        URL.revokeObjectURL(currentBackgroundURL);
+        currentBackgroundURL = null;
+    }
+
+    $("bgImage").value = "";
+    document.body.style.backgroundImage = "none";
+
+    paused = false;
+    $("pause").textContent = "Tạm dừng";
+
+    // Xóa cài đặt đã lưu
+    localStorage.removeItem(STORAGE_KEY);
+
+    // Áp dụng lại cài đặt mặc định
+    updateConfig(false);
+});
+// Khởi chạy
+updateConfig();
+updateConfig(false);
+refreshEffects();
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bảng thông báo</title>
+
+  <style>
+    /* Căn bảng vào chính giữa màn hình */
+    .center-overlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    /* Bảng chữ nhật bo góc bán trong suốt */
+    .glass-box {
+      width: 80%;
+      max-width: 500px;
+      padding: 30px;
+      box-sizing: border-box;
+
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+      text-align: center;
+      color: rgb(215, 129, 161);
+      font-family: Arial, sans-serif;
+    }
+
+    .glass-box h2 {
+      margin: 0 0 12px;
+      font-size: 26px;
+    }
+
+    .glass-box p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="center-overlay">
+    <div class="glass-box">
+      <h2>Hello em bé Trâm</h2>
+      <p>Em bé 20/10 vui vẻ nho</p>
+    </div>
+  </div>
+
+</body>
+</html>
+
